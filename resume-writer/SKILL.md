@@ -56,7 +56,23 @@ description: 当前 Application-MSC Vault 专用简历写作 skill。根据 Cour
 - 文件名必须带版本号 `Vn`。
 - 生成前扫描 `Resume/` 中同一学生、同一目标专业/用途的历史简历，取最高版本加 1。
 - 可用 `Application_System/tools/next_version_path.py` 生成路径。
+- 该 `Vn` 是本次任务唯一预留的正式交付版本。内部写作与审查只使用临时 `R1`、`R2` 等候选稿；全部审查通过后才发布该 `Vn`。
 
 示例：
 
 `YYYY-MM-DD-学生名-Resume-V1.md`
+
+## 阻塞条件
+
+- 缺少基础身份、教育背景或目标用途，无法确定简历结构。
+- 经历资料只有标题，没有职责、行动、工具、方法或结果依据。
+- 用户要求写入无法核实的量化结果、奖项、岗位或项目成果。
+- 目标项目要求特定格式，但未提供格式要求或参考文件。
+
+## 最小输出
+
+- `Resume/` 下唯一的新正式版本 `.md`；内部候选稿不得进入该目录。
+- 调用 `application-review`，生成对应 `Review_History/` 审查报告。
+- `application-review` 为 `Pass` 后，由隔离 Subagent 调用 `external-application-review`；如需修改，由主控 Agent 生成下一个内部 `Rn` 并再次调用 `application-review`，正式 `Vn` 不变。
+- 必要时更新 `Student_Profile/Task_Board.md`。
+- 若引用 Resume-Experience，优先使用已通过审查的版本。

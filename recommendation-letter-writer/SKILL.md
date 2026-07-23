@@ -28,6 +28,7 @@ description: 当前 Application-MSC Vault 专用推荐信写作 skill。根据 R
   - `固定段功能库.md`：拆解固定段功能，避免照抄 reference。
   - `课程推荐信能力标签库.md`：选择能力表达，但必须绑定事实依据。
   - `双信差异检查表.md`：同一学生两封信完成后的重复度和结构差异检查。
+  - `推荐人身份一致性检查表.md`：检查推荐人身份、课程、观察范围和双信差异。
 - Reference 只提供通用结构、段落功能和语气，不提供可直接套用的专业内容。
 - 不要整篇照抄 reference。先拆出固定段和可变段：
   - 固定段：称呼、开头推荐语、必要推荐人身份、总体评价、结尾推荐语和签名；需要替换学生姓名、推荐人身份、申请专业，并改写句式。
@@ -87,7 +88,23 @@ description: 当前 Application-MSC Vault 专用推荐信写作 skill。根据 R
 - 文件名必须带版本号 `Vn`。
 - 生成前扫描 `Recommendation_Letters/` 中同一学生、同一推荐人的历史推荐信，取最高版本加 1。
 - 可用 `Application_System/tools/next_version_path.py` 生成路径。
+- 该 `Vn` 是本次任务唯一预留的正式交付版本。内部写作与审查只使用临时 `R1`、`R2` 等候选稿；全部审查通过后才发布该 `Vn`。
 
 示例：
 
 `YYYY-MM-DD-学生名-推荐人姓名-Recommendation-Letter-V1.md`
+
+## 阻塞条件
+
+- 无法确认推荐人姓名、身份或与学生关系。
+- 推荐人课程交集缺失，且没有其他可观察事实支撑推荐信。
+- 两封推荐信资料高度重叠，无法安全写出差异化版本。
+- 资料中推荐人、课程或学生事实互相冲突，无法判断真伪。
+
+## 最小输出
+
+- `Recommendation_Letters/` 下唯一的新正式版本 `.md`；内部候选稿不得进入该目录。
+- 调用 `application-review`，生成对应 `Review_History/` 审查报告。
+- `application-review` 为 `Pass` 后，由隔离 Subagent 调用 `external-application-review`；如需修改，由主控 Agent 生成下一个内部 `Rn` 并再次调用 `application-review`，正式 `Vn` 不变。
+- 双信任务完成时，完成双信差异和推荐人身份一致性自检。
+- 必要时更新 `Student_Profile/Task_Board.md`。

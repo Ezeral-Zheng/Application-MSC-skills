@@ -16,6 +16,7 @@ description: 当前 Application-MSC Vault 专用资料标准化 skill。用于�
 3. 检查生成或更新的 `.md`。
 4. 确认以下目录存在：
    - `Additional_Documents/`
+   - `Personalization_Materials/`
    - `Student_Profile/`
    - `Revision_History/`
    - `Review_Memory/`
@@ -34,6 +35,7 @@ description: 当前 Application-MSC Vault 专用资料标准化 skill。用于�
 - `.md` 是正式资料源。
 - `.docx` / `.doc` / `.pdf` / `.pptx` 是原始附件或转换来源。
 - `Additional_Documents/` 用于保存腾讯文档附件预览导出的原始文件及同名 Markdown；原文件和转写后的 `.md` 必须并排保存。
+- `Personalization_Materials/` 用于保存从腾讯文档链接复制/标准化的“个性化素材”，以及在素材缺失时生成的待确认补写候选。
 - 通过 Tencent Docs MCP 导入材料并保存 Markdown 时，若正文出现 `ATTACHMENT ... \f 文件名`，应在导入阶段立即尝试下载/导出附件到 `Additional_Documents/`，然后运行标准化生成同名 `.md`。
 - 如果同名 `.md` 不存在，生成新的标准化 Markdown。
 - 如果同名 `.md` 已存在且源文件更新，先备份旧 `.md`，再更新。
@@ -56,3 +58,17 @@ description: 当前 Application-MSC Vault 专用资料标准化 skill。用于�
 - 缺失资料类别
 - 转换失败文件
 - 可能为空或仍需学生补充的文件
+
+## 阻塞条件
+
+- 目标学生目录不存在。
+- 源文件无法读取或权限不足。
+- PDF、Word、PPTX 转换失败且没有可用 Markdown 替代资料。
+- 关键资料为空，继续写作会导致编造。
+
+## 最小输出
+
+- 初始化标准支持目录。
+- 为可转换原始文件生成或更新同名 `.md`。
+- 更新 `Student_Profile/资料完整性检查.md`。
+- 必要时创建 `Student_Profile/学生偏好总结.md`、`Student_Profile/Task_Board.md` 和 `Review_Memory/审查问题记忆.md`。

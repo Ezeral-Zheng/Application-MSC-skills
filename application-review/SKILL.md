@@ -17,7 +17,7 @@ description: 当前 Application-MSC Vault 专用文书自动审查 skill。用�
 3. `Review_Memory/审查问题记忆.md`。
 4. 与文书类型相关的资料源：
    - 推荐信：`Recommender_Info/*.md`、`Basic_Info/*.md`，必要时读 `Course_Info/*.md`。
-   - PS：`Basic_Info/*.md`、`Personalization_Info/*.md`、`Course_Info/*.md`、`Resume/*.md`。
+   - PS：`Basic_Info/*.md`、`Personalization_Info/*.md`、`Personalization_Materials/*.md`、`Course_Info/*.md`、`Resume/*.md`、`Major Selected/*.xlsx`（如可读取）或用户本次明确提供的目标专业信息。
    - 简历：`Basic_Info/*.md`、`Course_Info/*.md`、`Resume/*.md`。
    - Resume-Experience：`Course_Info/*.md`，必要时读 `Basic_Info/*.md`。
    - 若上述资料中出现附件文件名，读取 `Additional_Documents/` 中匹配的同名 `.md`。
@@ -28,18 +28,21 @@ description: 当前 Application-MSC Vault 专用文书自动审查 skill。用�
 审查报告必须给出一个状态：
 
 - `Pass`：达到审查标准，可以交付。
-- `Needs Fix`：有可自动修复的问题，应根据报告生成下一版本并复查。
+- `Needs Fix`：有可自动修复的问题，应根据报告生成下一个内部 `Rn` 候选稿并复查；不得递增正式 `Vn`。
 - `Blocked`：缺少关键事实或用户输入，继续自动写会导致编造，应停止并要求补充。
 
 ## 通用审查标准
 
-- 文件只输出 `.md`，文件名包含正确版本号 `Vn`。
+- 正式交付文件只输出 `.md`，文件名包含正确版本号 `Vn`。正式发布前允许审查任务专用临时目录中的 `Rn` 候选稿；报告必须同时记录预留交付版本和内部轮次。
 - 所有事实能在学生资料、推荐人资料、用户输入或本次上下文中找到依据。
 - 使用附件内容的事实必须能追溯到 `Additional_Documents/*.md`；资料中提到但未落地的附件不得作为事实依据。
+- PS 中的个人化动机、经历反思和职业偏好应能追溯到 `Personalization_Info/*.md`、`Personalization_Materials/*.md`、其他学生资料或用户本次明确输入。
+- `Personalization_Materials/` 中标为“待确认”的内容不得被写成确定事实；标为“合理推断/表达方向”的内容不得扩写成未经证实的具体经历、数据、奖项或结果。
 - 不伪造课程、成绩、项目、学校、专业、时间、奖项、数据。
 - 不混用不同学生、不同推荐人、不同文书类型的素材。
 - 无明显 reference 原文残留、模板句重复、占位符遗漏。
 - 目标学校或项目未知时，使用通用表达，不编造项目匹配信息。
+- PS 中涉及目标学校、专业、课程、项目特色或职业前景的信息，应能追溯到 `Major Selected/`、用户本次明确输入或其他可读项目资料；无法追溯时不得写成确定事实。
 - 如果发现审查记忆中记录过的错误模式，必须重点检查。
 - 修改稿正文段落之间不应有空行，段落开头不应有空格、缩进或中文全角空格；Markdown 标题、列表和表格的必要换行除外。
 
@@ -49,16 +52,22 @@ description: 当前 Application-MSC Vault 专用文书自动审查 skill。用�
 
 - 保持推荐人第三方口吻，不写成学生自述。
 - 可变段绑定当前推荐人的课程交集，不混用另一位推荐人的素材。
+- 推荐人姓名、职位、院系、课程和观察范围必须与 `Recommender_Info` 一致；必要时按 `recommendation-letter-writer/references/推荐人身份一致性检查表.md` 逐项核对。
 - 两封推荐信结构不同，核心例证不同，能力标签不过度重复。
 - 推荐人自我介绍可以存在，但不能两封同等篇幅、同等句式重复。
 - 固定段只保留功能，不能保留 reference 原句；可变段必须按学生资料重写。
 
 个人陈述：
 
-- 默认中文连贯文章，不分点，不写成提纲。
+- 默认同一 `.md` 文件内输出双语版本：英文正文在前，中文正文在后。
+- 英文和中文都应是连贯文章，不分点，不写成提纲。
+- 英文正文建议 500-1000 words，理想约 700 words；明显低于或高于该范围时，检查是否内容不足、过度扩写或没有按申请要求控制篇幅。
+- 中文版本应与英文版本事实一致，可自然改写，但不得新增英文版没有的事实。
 - 应届生顺序为：本科专业选择原因、本科经历、职业规划、硕士专业/学校选择原因。
 - 时间线正确，经历发生顺序合理。
 - 不堆砌全部经历，只保留服务申请专业主线的素材。
+- 如果个性化素材为空但 PS 仍出现大量具体个人动机或经历细节，必须核查是否来自其他资料；无法追溯时判为 `Needs Fix` 或 `Blocked`。
+- 学生偏好总结只能作为风格和详略依据，不能作为新增事实依据；若偏好总结与个性化素材或基础资料冲突，要求修正或人工确认。
 
 简历：
 
@@ -80,21 +89,26 @@ Resume-Experience：
 
 ## 自动修稿流程
 
-1. 初稿或修改稿生成后，先保存当前版本。
-2. 审查当前版本并生成 `Review_History/YYYY-MM-DD-文书类型-Vn-审查报告.md`。
-3. 若状态为 `Pass`，停止。
-4. 若状态为 `Needs Fix`，根据审查报告生成下一版本，并再次审查。
-5. 若状态为 `Blocked`，停止自动修稿，报告需要补充的事实。
-6. 自动修稿最多新增 3 个版本；仍未通过时，保留最后版本，并在报告中列出剩余问题。
+1. 任务开始时扫描正式输出目录，只预留一个下一个交付版本 `Vn`。
+2. 将初稿或修改稿保存为任务专用临时目录中的 `R1` 候选稿，不写入正式输出目录。
+3. 审查当前 `Rn`；内部审查报告保存在同一任务临时目录，不写入学生的 `Review_History/`。
+4. 若状态为 `Pass`，停止当前事实修订循环。
+5. 若状态为 `Needs Fix`，根据审查报告生成下一个内部轮次 `R(n+1)`，正式交付版本号保持不变，并再次审查。
+6. 若状态为 `Blocked`，停止自动修稿，报告需要补充的事实。
+7. 自动修稿最多新增 3 个内部轮次；仍未通过时，不发布预留的正式 `Vn`，并在报告中列出剩余问题。
+8. 本审查为 `Pass` 后，主控 Agent 再按 `external-application-review` 启动上下文隔离 Subagent 做一次内容审稿；本 skill 不代替该独立审稿。
+9. 独立内容审稿和必要的内部修订全部完成后，才把最后通过的候选稿一次性保存为预留的正式 `Vn`。随后对正式文件做最终一致性确认，并只把这份正式审查报告写入 `Review_History/YYYY-MM-DD-文书类型-Vn-审查报告.md`。
 
 ## 审查报告结构
 
 每份审查报告至少包含：
 
+- 顶部 frontmatter，字段固定为 `student`、`doc_type`、`draft_path`、`version`、`status`、`severity`、`issue_types`、`evidence_path`、`fix_action`、`memory_update`、`review_time`
 - 学生
 - 文书类型
 - 审查稿件路径
 - 审查版本
+- 预留正式交付版本和内部修订轮次（审查内部候选稿时）
 - 审查时间
 - 审查状态：`Pass` / `Needs Fix` / `Blocked`
 - 事实依据检查
@@ -105,18 +119,27 @@ Resume-Experience：
 - 自动修稿建议
 - 是否写入审查记忆
 
-审查报告应尽量使用结构化字段，便于后续统计：
+frontmatter 示例：
 
 ```md
-- Status:
-- Severity:
-- Issue_Type:
-- Evidence_Path:
-- Fix_Action:
-- Memory_Update:
+---
+student: 周星彤
+doc_type: Recommendation-Letter
+draft_path: 周星彤/Recommendation_Letters/2026-06-07-周星彤-Liu-Yue-Recommendation-Letter-V1.md
+version: V1
+status: Pass
+severity: Low
+issue_types: []
+evidence_path: 周星彤/Recommender_Info/xxx.md
+fix_action: None
+memory_update: false
+review_time: 2026-07-17 12:00:00
+---
 ```
 
-其中 `Issue_Type` 建议从以下类型中选择：`Fact`、`Format`、`Version`、`Reference Residue`、`Material Mixing`、`Structure`、`Missing Input`、`Tool Failure`、`Style`。
+`status` 只能使用 `Pass`、`Needs Fix` 或 `Blocked`。`issue_types` 建议从以下类型中选择：`Fact`、`Format`、`Version`、`Reference Residue`、`Material Mixing`、`Structure`、`Missing Input`、`Tool Failure`、`Style`。
+
+如果审查稿件仍包含 `[待补充：...]`、`[待确认：...]` 或类似占位符，审查状态不能为 `Pass`；应为 `Needs Fix` 或 `Blocked`。
 
 ## 审查记忆更新
 
@@ -130,6 +153,7 @@ Resume-Experience：
 - reference 原文残留。
 - 两封推荐信重复度高。
 - PS 分点、顺序错误或时间线错乱。
+- PS 把个性化素材补写候选或待确认内容误当作已确认事实。
 - 简历虚构量化或过度扩写。
 - Resume-Experience 收录信息不足项目、格式错误、或把无依据事实写成项目 bullet。
 
