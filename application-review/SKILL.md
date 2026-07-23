@@ -17,7 +17,7 @@ description: 当前 Application-MSC Vault 专用文书自动审查 skill。用�
 3. `Review_Memory/审查问题记忆.md`。
 4. 与文书类型相关的资料源：
    - 推荐信：`Recommender_Info/*.md`、`Basic_Info/*.md`，必要时读 `Course_Info/*.md`。
-   - PS：`Basic_Info/*.md`、`Personalization_Info/*.md`、`Personalization_Materials/*.md`、`Course_Info/*.md`、`Resume/*.md`、`Major Selected/*.xlsx`（如可读取）或用户本次明确提供的目标专业信息。
+   - PS：`Basic_Info/*.md`、`Personalization_Info/*.md`、`Personalization_Materials/*.md`、`Course_Info/*.md`、`Resume/*.md`、`Major Selected/*.xlsx`（如可读取）、`Student_Profile/PS_申请组合叙事矩阵.md`、同一学生其他申请目标的最新正式 PS，或用户本次明确提供的目标专业信息。
    - 简历：`Basic_Info/*.md`、`Course_Info/*.md`、`Resume/*.md`。
    - Resume-Experience：`Course_Info/*.md`，必要时读 `Basic_Info/*.md`。
    - 若上述资料中出现附件文件名，读取 `Additional_Documents/` 中匹配的同名 `.md`。
@@ -68,6 +68,9 @@ description: 当前 Application-MSC Vault 专用文书自动审查 skill。用�
 - 不堆砌全部经历，只保留服务申请专业主线的素材。
 - 如果个性化素材为空但 PS 仍出现大量具体个人动机或经历细节，必须核查是否来自其他资料；无法追溯时判为 `Needs Fix` 或 `Blocked`。
 - 学生偏好总结只能作为风格和详略依据，不能作为新增事实依据；若偏好总结与个性化素材或基础资料冲突，要求修正或人工确认。
+- 如果同一学生已有其他目标项目 PS，运行 `Application_System/tools/check_ps_portfolio_similarity.py`。工具结果是预警证据，不单独替代人工判断。
+- 出现相同开头、相同前三段叙事、完整非事实句大量复用，或只有职业目标与 Why Program 不同时，判为 `Needs Fix`，问题类型使用 `Cross-Application Similarity`。
+- 修复跨申请重复时必须回到 `PS_申请组合叙事矩阵.md` 重构核心问题、素材排序或经历功能；仅替换同义词、学校名、专业名和课程名不能通过。
 
 简历：
 
@@ -96,7 +99,7 @@ Resume-Experience：
 5. 若状态为 `Needs Fix`，根据审查报告生成下一个内部轮次 `R(n+1)`，正式交付版本号保持不变，并再次审查。
 6. 若状态为 `Blocked`，停止自动修稿，报告需要补充的事实。
 7. 自动修稿最多新增 3 个内部轮次；仍未通过时，不发布预留的正式 `Vn`，并在报告中列出剩余问题。
-8. 本审查为 `Pass` 后，主控 Agent 再按 `external-application-review` 启动上下文隔离 Subagent 做一次内容审稿；本 skill 不代替该独立审稿。
+8. 本审查为 `Pass` 后，主控 Agent 再按 `external-application-review` 启动上下文隔离 Subagent 做单篇内容审稿；PS 已有其他申请目标时，还需执行 `portfolio-differentiation` 隔离审稿。本 skill 不代替独立审稿。
 9. 独立内容审稿和必要的内部修订全部完成后，才把最后通过的候选稿一次性保存为预留的正式 `Vn`。随后对正式文件做最终一致性确认，并只把这份正式审查报告写入 `Review_History/YYYY-MM-DD-文书类型-Vn-审查报告.md`。
 
 ## 审查报告结构
@@ -137,7 +140,7 @@ review_time: 2026-07-17 12:00:00
 ---
 ```
 
-`status` 只能使用 `Pass`、`Needs Fix` 或 `Blocked`。`issue_types` 建议从以下类型中选择：`Fact`、`Format`、`Version`、`Reference Residue`、`Material Mixing`、`Structure`、`Missing Input`、`Tool Failure`、`Style`。
+`status` 只能使用 `Pass`、`Needs Fix` 或 `Blocked`。`issue_types` 建议从以下类型中选择：`Fact`、`Format`、`Version`、`Reference Residue`、`Material Mixing`、`Structure`、`Cross-Application Similarity`、`Missing Input`、`Tool Failure`、`Style`。
 
 如果审查稿件仍包含 `[待补充：...]`、`[待确认：...]` 或类似占位符，审查状态不能为 `Pass`；应为 `Needs Fix` 或 `Blocked`。
 
@@ -153,6 +156,7 @@ review_time: 2026-07-17 12:00:00
 - reference 原文残留。
 - 两封推荐信重复度高。
 - PS 分点、顺序错误或时间线错乱。
+- PS 与同一学生其他申请目标高度雷同，或只替换职业目标与 Why Program。
 - PS 把个性化素材补写候选或待确认内容误当作已确认事实。
 - 简历虚构量化或过度扩写。
 - Resume-Experience 收录信息不足项目、格式错误、或把无依据事实写成项目 bullet。

@@ -1,6 +1,6 @@
 ---
 name: external-application-review
-description: Use when a recommendation letter, personal statement, resume, or Resume-Experience draft has passed factual compliance review and needs an independent, context-isolated assessment of structure, content, logic, specificity, persuasion, reader impact, or AI/template feel before final delivery.
+description: Use when an application document has passed factual review and needs an independent assessment, or when one student's personal statements may be too similar across target programmes.
 ---
 
 # External Application Review
@@ -11,7 +11,7 @@ description: Use when a recommendation letter, personal statement, resume, or Re
 
 ## 强制隔离
 
-主控 Agent 必须启动一个全新 Subagent，并且不继承当前对话或写作上下文（例如使用 `fork_turns: "none"`）。只传入：
+主控 Agent 必须启动一个全新 Subagent，并且不继承当前对话或写作上下文（例如使用 `fork_turns: "none"`）。默认 `single-draft` 模式只传入：
 
 1. 本 skill 路径与待审成稿路径。
 2. 文书类型、目标项目或用途。
@@ -19,6 +19,15 @@ description: Use when a recommendation letter, personal statement, resume, or Re
 4. 可选的最小事实摘要；只有判断内容覆盖度确有必要时才提供。
 
 不得传入写作过程、作者解释、旧稿、既有审查结论、主 Agent 的评价或预期答案。Subagent 不得读取其他学生目录、`Review_History/`、`Revision_History/`、`Review_Memory/` 或写作 skill。
+
+PS 的 `portfolio-differentiation` 模式是唯一例外。该模式必须由另一个全新隔离 Subagent 执行，只允许传入：
+
+1. 当前候选稿。
+2. `Student_Profile/PS_申请组合叙事矩阵.md`。
+3. 同一学生其他申请目标各自最新的正式 PS；同一目标不得传入多个历史版本。
+4. 相似度工具报告。
+
+该模式仍不得读取写作过程、事实资料、学生反馈和其他学生文件。它只判断跨申请叙事差异，不重新做事实审查。
 
 调用提示必须明确写明“你是已隔离的最终审稿人”。收到这一标记的 Subagent 直接执行本 skill，禁止再次派生审稿 Subagent。只有仍处于原写作上下文的主控 Agent 才负责启动隔离 Subagent。
 
@@ -37,12 +46,13 @@ description: Use when a recommendation letter, personal statement, resume, or Re
 
 ## 执行流程
 
-1. 只读成稿和允许提供的最小任务信息。
-2. 先完成无背景的读者盲审：主线、记忆点、最强段、最弱段、阅读阻力。
-3. 再完成目标适配审查：素材是否支持申请方向，目标与项目是否形成因果关系。
-4. 对每条建议标注优先级、定位、影响、修改方向和事实边界。
-5. 明确列出 `Do Not Change`，保护有效内容。
-6. 按下方“审稿人与主 Agent 交接协议”输出报告，不修改成稿、不创建新的正式版本。
+1. 确认 `review_scope` 为 `single-draft` 或 `portfolio-differentiation`。
+2. `single-draft` 只读成稿和允许提供的最小任务信息。
+3. `single-draft` 先完成无背景的读者盲审，再完成目标适配审查。
+4. `portfolio-differentiation` 比较核心问题、开头视角、主辅经历组合、经历顺序、能力结论、职业目标和 Why Program 的联动，不因共享硬事实自动判错。
+5. 对每条建议标注优先级、定位、影响、修改方向和事实边界。
+6. 明确列出 `Do Not Change`，保护有效内容。
+7. 按下方“审稿人与主 Agent 交接协议”输出报告，不修改成稿、不创建新的正式版本。
 
 ## 优先级与状态
 
@@ -73,6 +83,7 @@ version: V1
 internal_iteration: R1
 status: Pass
 review_mode: isolated-subagent
+review_scope: single-draft
 must_fix_count: 0
 should_fix_count: 0
 needs_confirmation_count: 0
@@ -106,6 +117,17 @@ Personal Statement 的每个问题都必须使用稳定 ID：
 - 素材、细节与反思：`PS-EVID-001`
 - 专业与项目匹配：`PS-FIT-001`
 - 个人辨识度与说服力：`PS-VOICE-001`
+- 跨申请组合差异：`PS-PORTFOLIO-001`
+
+`portfolio-differentiation` 模式至少检查：
+
+- `PS-PORTFOLIO-001`：开头与其他目标 PS 高度相同。
+- `PS-PORTFOLIO-002`：核心经历组合、顺序和段落功能相同。
+- `PS-PORTFOLIO-003`：只有职业目标或 Why Program 不同。
+- `PS-PORTFOLIO-004`：同一项目导出相同能力结论，仅替换专业关键词。
+- `PS-PORTFOLIO-005`：目标专业没有改变全文叙事逻辑。
+
+相似度工具超过阈值只触发人工判断。若共享内容主要是 GPA、院校、项目名称等不可避免的硬事实，且叙事功能确实不同，可以 `Pass`；不得为降低数值而机械换词。
 
 同一报告内按出现顺序递增末尾数字，不得重复。先输出维度摘要：
 
@@ -171,3 +193,6 @@ Personal Statement 的每个问题都必须使用稳定 ID：
 - 用常识补全领导力、动机或职业细节：应标记 `Needs Confirmation`。
 - 直接改稿：审稿人只报告，主控 Agent 决定是否采纳。
 - 读取完整资料库：会污染盲审；事实兜底仍由 `application-review` 完成。
+- 在 `single-draft` 模式读取旧稿：会破坏单篇盲审。
+- 在 `portfolio-differentiation` 模式不提供其他目标 PS：无法判断跨申请重复。
+- 为降低相似度机械替换同义词：没有改变叙事，应继续判为 `Revise`。

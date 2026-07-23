@@ -12,15 +12,17 @@ description: 当前 Application-MSC Vault 专用个人陈述写作 skill。根�
 ## 必读资料
 
 1. `Student_Profile/学生偏好总结.md`
-2. `Basic_Info/*.md`
-3. `Personalization_Info/*.md`
-4. `Personalization_Materials/*.md`
-5. `Course_Info/*.md`
-6. `Resume/*.md`
-7. `Major Selected/*.xlsx` 或同目录下后续补充的专业库文件；如果暂时无法解析 Excel，以用户本次明确指定的学校、专业和方向为准，不因无法提取 Excel 阻塞写作
-8. 如果常规资料中出现附件文件名，读取 `Additional_Documents/` 中匹配的同名 `.md`
-9. 用户提供的申请专业、项目、学校或方向信息
-10. `Application_System/skills/external-application-review/references/个人陈述五维质量标准.md`，作为写作阶段的质量目标，而不是等审稿时才补救
+2. `Student_Profile/PS_申请组合叙事矩阵.md`
+3. `Personal_Statement/` 中同一学生其他申请目标的最新正式 `Vn`；同一申请目标只读取最高版本
+4. `Basic_Info/*.md`
+5. `Personalization_Info/*.md`
+6. `Personalization_Materials/*.md`
+7. `Course_Info/*.md`
+8. `Resume/*.md`
+9. `Major Selected/*.xlsx` 或同目录下后续补充的专业库文件；如果暂时无法解析 Excel，以用户本次明确指定的学校、专业和方向为准，不因无法提取 Excel 阻塞写作
+10. 如果常规资料中出现附件文件名，读取 `Additional_Documents/` 中匹配的同名 `.md`
+11. 用户提供的申请专业、项目、学校或方向信息
+12. `Application_System/skills/external-application-review/references/个人陈述五维质量标准.md`，作为写作阶段的质量目标，而不是等审稿时才补救
 
 如果 `Personalization_Materials/` 为空、缺失或只有模板内容，先使用 `personalization-material-importer` 生成“个性化素材补写候选”。补写候选只能基于已读取资料和申请方向做主题提炼、动机延展、能力迁移和待确认问题整理；不得把未经确认的具体经历、时间、奖项、成绩、课程或公司写成事实。
 
@@ -59,14 +61,33 @@ description: 当前 Application-MSC Vault 专用个人陈述写作 skill。根�
 
 类型判断只用于内部写作，不要在最终文章中写成标签。
 
+## 写作前的申请组合规划
+
+写作正文前必须先做学生级横向规划，并更新 `Student_Profile/PS_申请组合叙事矩阵.md`。矩阵至少记录本次目标项目的：
+
+- 目标项目与方向。
+- 核心问题或核心判断。
+- 开头切入点。
+- 主经历、辅助经历及各自在本篇中的叙事功能。
+- 重点能力和能力缺口。
+- 职业目标。
+- Why Program 对接资源。
+- 与已有 PS 的复用内容、必须避开的开头和需要改变的经历顺序。
+
+同一事实允许在多个项目中出现，但必须服务不同的申请逻辑。不得把一篇既有 PS 作为底稿，只替换专业名称、职业目标、课程和最后一段。
+
+如果同一学生还没有其他正式 PS，建立首条矩阵记录即可。如果已有其他专业 PS，则先比较已有主线与素材分配，再决定本篇从哪个专业问题切入。
+
 ## 应届生文章结构
 
-应届生个人陈述必须按以下顺序组织，顺序不可改变：
+应届生个人陈述必须覆盖以下逻辑阶段，并保持整体先后关系：
 
 1. 选择本科专业的原因。
 2. 本科经历，包括实习、科研、课程、竞赛或项目。
 3. 职业规划。
 4. 硕士专业选择原因，包括为什么申请这个专业与这所学校。
+
+这四项是论证顺序，不是固定段落模板。可以从具体问题、项目判断或经历切入，再自然解释本科专业基础；可以合并或拆分段落，但不得打乱“背景与积累—职业方向—硕士学习需求”的因果关系。
 
 ## 成文规则
 
@@ -80,6 +101,11 @@ description: 当前 Application-MSC Vault 专用个人陈述写作 skill。根�
 - 英文和中文都必须是逻辑连贯的文章，不要分点，不要列清单，不要写成提纲。
 - 不需要把所有经历都写进去，只选择与申请专业最相关、最能支持主线的经历。
 - 围绕申请专业建立清晰主线：兴趣来源、能力积累、课程/项目/实习证据、职业目标、项目匹配。
+- 多专业申请时，目标专业必须影响全文的核心问题、素材排序、经历解释和能力结论，不能只影响职业目标与 Why Program。
+- 不同目标 PS 的首段不得复用完整的非事实句；前两段不得同时采用相同开头、相同经历顺序和相同能力结论。
+- GPA、院校、本科专业等硬事实可以重复，但不得让同一组背景事实长期占据每篇 PS 的相同开头位置和相同篇幅。
+- 同一项目可以复用事实，但必须改变其在论证中的功能和反思重点；仅替换专业关键词、同义词或课程名称不构成差异化。
+- Why Program 不得成为不同项目 PS 的唯一差异区域。
 - 优先使用具体课程、项目、实习、科研、竞赛或问题解决经历，避免空泛形容。
 - 如果课程、推荐人、个性化或简历素材中提到 PDF、PPT、DOCX 等附件文件名，必须查找并读取 `Additional_Documents/同名.md`；附件内容只作为事实依据补充，不得替代或扩大原始学生资料。
 - `Personalization_Materials/` 中标为“已确认事实”的内容可作为正文事实依据；标为“合理推断/表达方向”的内容只能转化为概括性动机、能力主线或职业兴趣；标为“待确认”的内容不得作为确定事实写入正文。
@@ -96,7 +122,7 @@ description: 当前 Application-MSC Vault 专用个人陈述写作 skill。根�
 
 输出前必须自查并修正：
 
-1. 文章是否遵守四段构成顺序。
+1. 文章是否覆盖四项逻辑阶段并保持因果顺序，同时避免套用固定段落模板。
 2. 正文是否包含英文在前、中文在后的双语版本，且两版都没有分点列举。
 3. 所有事实是否能在用户资料或申请项目信息中找到依据。
 4. 是否出现伪造数据、伪造经历、伪造课程、伪造学校项目信息。
@@ -107,6 +133,9 @@ description: 当前 Application-MSC Vault 专用个人陈述写作 skill。根�
 9. 英文正文是否大致在 500-1000 words，是否接近 700 words；若超出范围，是否有明确原因。
 10. 是否按五维质量标准逐项完成内部自查，尤其检查英文地道性、主线、经历反思、课程相关性和个人辨识度。
 11. 是否完成课程堆砌检查：统计具名课程数量，检查是否连续罗列、是否占据 Why Program 主要篇幅，以及每门课程是否连接既有经历、能力缺口和未来用途。
+12. 是否已读取同一学生其他目标项目的最新 PS，并完成申请组合叙事矩阵。
+13. 是否出现“前文基本相同，只改职业目标和 Why Program”的情况。
+14. 对候选稿运行 `Application_System/tools/check_ps_portfolio_similarity.py`；若状态为 `Needs Differentiation`，必须结合矩阵判断并重构叙事，不能只做同义改写。
 
 如果发现无法核实的信息，应删除、弱化，或改为 `[待补充：...]`。
 如果最终正文仍包含 `[待补充：...]`、`[待确认：...]` 或类似占位符，该版本不得作为 `Pass` 交付稿，只能作为待补充草稿进入 `Needs Fix` 或 `Blocked`。
@@ -140,5 +169,7 @@ description: 当前 Application-MSC Vault 专用个人陈述写作 skill。根�
 - `Personal_Statement/` 下唯一的新正式版本 `.md`；内部候选稿不得进入该目录。
 - 调用 `application-review`，生成对应 `Review_History/` 审查报告。
 - `application-review` 为 `Pass` 后，由隔离 Subagent 调用 `external-application-review`；如需修改，由主控 Agent 生成下一个内部 `Rn` 并再次调用 `application-review`，正式 `Vn` 不变。
+- 有其他目标项目 PS 时，完成 `external-application-review` 的 `portfolio-differentiation` 隔离审稿。
+- 创建或更新 `Student_Profile/PS_申请组合叙事矩阵.md`。
 - 必要时更新 `Student_Profile/Task_Board.md`。
 - 如果使用或生成了个性化素材补写候选，保留在 `Personalization_Materials/`。
