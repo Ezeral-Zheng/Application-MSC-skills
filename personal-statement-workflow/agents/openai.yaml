@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personal Statement Workflow"
+  short_description: "Run a fact-safe PS production workflow"
+  default_prompt: "Use $personal-statement-workflow to run the full validated PS/SOP production process."
