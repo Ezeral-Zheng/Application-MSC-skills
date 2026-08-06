@@ -1,0 +1,4 @@
+interface:
+  display_name: "Targeted One-Page Resume"
+  short_description: "Build program-specific one-page resumes"
+  default_prompt: "Create separate one-page resumes for each target program using verified courses and experiences, then render and validate the DOCX."
