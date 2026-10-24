@@ -1,0 +1,47 @@
+{
+  "source_material_dirs": [
+    "Basic_Info",
+    "Course_Info",
+    "Personalization_Info",
+    "Personalization_Materials",
+    "Resume",
+    "Recommender_Info"
+  ],
+  "spreadsheet_material_dirs": [
+    "Major Selected"
+  ],
+  "attachment_dirs": [
+    "Additional_Documents"
+  ],
+  "output_dirs": {
+    "Recommendation_Letters": "Recommendation-Letter",
+    "Personal_Statement": "Personal-Statement",
+    "Resume": "Resume",
+    "Resume_Experience": "Resume-Experience"
+  },
+  "memory_dirs": [
+    "Student_Profile",
+    "Revision_History",
+    "Review_Memory",
+    "Review_History",
+    "External_Review_History"
+  ],
+  "support_files": [
+    "Student_Profile/学生偏好总结.md",
+    "Student_Profile/PS_申请组合叙事矩阵.md",
+    "Student_Profile/Task_Board.md",
+    "Review_Memory/审查问题记忆.md"
+  ],
+  "ignored_root_dirs": [
+    ".git",
+    ".obsidian",
+    "Application_System",
+    "_Student_Template",
+    "outputs"
+  ],
+  "forbidden_dirs": [
+    "Drafts",
+    "drafts"
+  ],
+  "allowed_output_extension": ".md"
+}

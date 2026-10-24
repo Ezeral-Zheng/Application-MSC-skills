@@ -1,0 +1,4 @@
+interface:
+  display_name: "PS Word Export"
+  short_description: "Export approved personal statements to versioned Word files"
+  default_prompt: "Use $ps-word-export to export the English portion of an approved personal statement to the Desktop 26Fall申请 folder, matching the student's existing folder."

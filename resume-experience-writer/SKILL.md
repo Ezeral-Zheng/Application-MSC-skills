@@ -92,7 +92,8 @@ Date - Date
 Resume_Experience/
 ```
 
-文件名必须带版本号 `Vn`。生成前扫描 `Resume_Experience/` 中同一 key 的最高版本，取最高版本加 1。
+文件名必须带版本号 `Vn`，且不得添加日期前缀。生成前扫描 `Resume_Experience/` 中同一 key 的最高版本，取最高版本加 1。
+该 `Vn` 是本次任务唯一预留的正式交付版本。内部生成与审查只使用临时 `R1`、`R2` 等候选稿；全部审查通过后才发布该 `Vn`。
 
 版本 key：
 
@@ -111,7 +112,7 @@ python3 Application_System/tools/next_version_path.py \
 推荐文件名示例：
 
 ```text
-YYYY-MM-DD-学生名-Resume-Experience-V1.md
+学生名-Resume-Experience-V1.md
 ```
 
 ## 输出结构
@@ -126,11 +127,27 @@ YYYY-MM-DD-学生名-Resume-Experience-V1.md
 ## 生成后审查
 
 生成后必须调用 `application-review`，文书类型标记为 `Resume-Experience`。
+`application-review` 为 `Pass` 后，由隔离 Subagent 调用 `external-application-review`；如需修改，由主控 Agent 制作净化交接包，再由另一个全新且不继承审稿或写作上下文的修改 Subagent 生成下一个内部 `Rn`，并再次调用 `application-review`，正式 `Vn` 不变。
 
 审查为：
 
 - `Pass`：停止。
-- `Needs Fix`：根据审查报告生成下一版本并复查。
+- `Needs Fix`：根据审查报告生成下一个内部 `Rn` 并复查；不得递增正式 `Vn`。
 - `Blocked`：停止，不继续编造，并列出需要用户补充的资料。
 
-自动修稿最多新增 3 个版本。
+自动修稿最多新增 3 个内部轮次；最终只发布一个正式版本。
+
+## 阻塞条件
+
+- `Course_Info/` 为空或只有模板字段。
+- 所有项目都缺少学生具体行动、方法、工具、过程或结果信息。
+- 用户要求写入无法追溯到 `Course_Info` 或本次明确补充的信息。
+- 资料中项目名称、时间、角色或来源互相冲突，无法判断真伪。
+
+## 最小输出
+
+- `Resume_Experience/` 下唯一的新正式版本 `.md`；内部候选稿不得进入该目录。
+- 正文项目经历，或在无可转化项目时列出 `未纳入项目` 和缺失原因。
+- `## 资料依据`，列出读取过的 `Course_Info` 文件路径。
+- 对应 `Review_History/` 审查报告。
+- 必要时更新 `Student_Profile/Task_Board.md`。

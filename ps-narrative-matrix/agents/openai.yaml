@@ -1,0 +1,4 @@
+interface:
+  display_name: "PS 叙事矩阵"
+  short_description: "生成学生可读的申请叙事矩阵，支持增补专业与同校专业差异规划"
+  default_prompt: "使用 $ps-narrative-matrix 为指定学生生成叙事矩阵；如新增专业，在原有矩阵上增补并检查同校差异。"

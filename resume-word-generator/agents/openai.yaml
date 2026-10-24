@@ -1,0 +1,4 @@
+interface:
+  display_name: "Resume Word Generator"
+  short_description: "Generate structured resumes and Word files"
+  default_prompt: "Use $resume-word-generator to turn a student's profile into a verified resume and export it as a polished Word document."

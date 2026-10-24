@@ -1,0 +1,4 @@
+interface:
+  display_name: "Independent Application Review"
+  short_description: "Review application drafts in an isolated context"
+  default_prompt: "Use $external-application-review to independently review this application draft."

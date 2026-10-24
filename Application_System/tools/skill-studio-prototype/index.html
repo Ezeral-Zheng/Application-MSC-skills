@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Application Studio · 流程设计原型</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div class="brand"><span class="brand-icon">A</span><div>Application Studio<small>把申请经验，变成可组合的流程</small></div></div><span class="prototype-label">流程设计原型</span><div class="top-actions"><button id="importBtn">导入方案</button><button id="jsonBtn">导出配置</button><button class="primary" id="previewBtn">生成执行提示 <span>↗</span></button></div></header>
+<section class="context"><div><span class="eyebrow">WORKFLOW / APPLICATION MSC</span><input id="flowName" class="flow-name" aria-label="流程名称" value="先给学生看叙事方案"><p>理解每一步，按方向配置，再把流程交给 Agent。</p></div><div class="context-fields"><label>申请方向<select id="direction"><option value="general">通用申请</option><option value="business">商科 / 管理</option><option value="engineering">理工 / 技术</option><option value="transfer">跨专业申请</option></select></label><label>学生<input id="student" placeholder="输入学生姓名"></label><label>目标项目<input id="target" placeholder="学校与专业"></label></div></section>
+<div class="workbar"><div id="templates"><span>从模板开始</span><button data-template="matrix" class="active">学生版矩阵</button><button data-template="ps">完整 PS 流程</button><button data-template="resume">定向简历</button><button data-template="blank">自由组合</button></div><div><button id="checkBtn">检查流程</button><button id="simulateBtn">演练步骤</button></div></div>
+<main id="workspace"></main>
+<div id="bottomState"></div>
+<nav id="switcher" aria-label="切换设计方式"><button id="prevVariant" aria-label="上一种视图">←</button><div><small>比较操作方式</small><span id="variantName"></span></div><button id="nextVariant" aria-label="下一种视图">→</button></nav>
+<div id="toast" role="status"></div>
+<dialog id="modal"><div class="dialog-head"><h2 id="dialogTitle"></h2><button id="closeDialog" aria-label="关闭">×</button></div><div id="dialogBody"></div><div id="dialogActions"></div></dialog>
+<input type="file" id="importFile" accept="application/json,.json" hidden>
+<script src="app.js"></script>
+</body></html>

@@ -117,3 +117,17 @@ python3 Application_System/tools/prepare_tencent_program_import.py \
 - 写入的腾讯文档子表。
 - 写入行号。
 - 空缺字段或需要人工补充的信息。
+
+## 阻塞条件
+
+- 无法从腾讯在线表格 URL 确认 `file_id` 或 `sheet_id`。
+- 目标子表表头无法识别。
+- 专业存在 `unmatched` 或 `ambiguous`。
+- 目标行已有内容且用户未确认是否追加或覆盖。
+- 用户明确要求只生成计划、暂不写入。
+
+## 最小输出
+
+- `Application_System/reports/tencent_program_import_plan.json`
+- `Application_System/reports/tencent_program_import_plan.md`
+- 若实际写入，报告写入子表、行号、成功项、未写入项和空缺字段。

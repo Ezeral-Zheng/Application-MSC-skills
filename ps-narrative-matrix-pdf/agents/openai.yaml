@@ -1,0 +1,3 @@
+interface:
+  display_name: "叙事矩阵 PDF 排版"
+  short_description: "将学生叙事矩阵按固定字体、字号和黑白简洁版式导出为 PDF"

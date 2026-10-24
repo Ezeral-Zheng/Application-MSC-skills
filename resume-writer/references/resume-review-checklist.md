@@ -2,7 +2,8 @@
 
 ## Full Resume
 
-- Education information matches Basic_Info.
+- Education information matches Basic_Info; the degree row is degree-first, excludes school/department/college wording, and uses the verified major.
+- Class rank/ranking is not included.
 - Experience entries match Resume, Course_Info, or user-provided facts.
 - No fabricated scores, rankings, tools, datasets, companies, titles, awards, dates, or outcomes.
 - Bullets are concise, action-driven, and not written like PS paragraphs.
